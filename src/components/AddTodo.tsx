@@ -1,10 +1,18 @@
 import React, { useRef } from "react";
 
-const AddTodo: React.FC = () => {
+type addTodoProps = {
+  deleteHandler: (id: string) => void;
+  submitHandler: (val: string) => void;
+};
+const AddTodo: React.FC<addTodoProps> = ({ submitHandler }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleForm = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(inputRef.current?.value);
+    let val = inputRef.current?.value!;
+    submitHandler(val);
+    if (inputRef.current?.value) {
+      inputRef.current.value = "";
+    }
   };
   return (
     <form onSubmit={handleForm}>
